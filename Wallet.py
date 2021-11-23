@@ -49,7 +49,8 @@ class Wallet:
     def generate_keys(self):
         
         private_key = ec.generate_private_key(ec.SECP384R1())
-        if (len(sys.argv)>1):type=int(sys.argv[1])
+        if (len(sys.argv)>1):
+           type=int(sys.argv[1])
 
         if (type==1): private_key = ec.generate_private_key(ec.SECP192R1())
         elif (type==2): private_key = ec.generate_private_key(ec.SECP224R1())
@@ -79,9 +80,9 @@ class Wallet:
         #private_key = ECC.generate(curve='P-256')
         #private_key = ec.generate_private_key(ec.SECP256K1())
         #return (binascii.hexlify(private_key.export_key(format='DER')).decode('ascii'), binascii.hexlify(public_key.export_key(format='DER')).decode('ascii'))
-        der = private_key
-        der1 = private_key
-        return (binascii.b2a_hexder(der.export_key(format='DER')).decode(), binascii.b2a_hexder(der1.export_key(format='DER')).decode())
+        private_key = der
+        public_key = der1
+        return (binascii.b2a_hex(private_key.export_key(format='DER')).decode(), binascii.b2a_hex(public_key.export_key(format='DER')).decode())
 
     def sign_transaction(self, sender, recipient, amount):
         h = SHA256.new((str(sender) + str(recipient) + str(amount)).encode('utf8'))
