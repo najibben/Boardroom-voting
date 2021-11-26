@@ -1,4 +1,3 @@
-
 from Crypto.Hash import SHA256
 from Crypto.Hash import SHA3_256
 import binascii  # Converts binary to ascii and the other way around
@@ -26,9 +25,6 @@ class Wallet:
         self.private_key = private_key
         self.public_key = public_key
  
-      
-   
-
     def save_keys(self):
         if self.public_key is not None and self.private_key is not None:
             try:
@@ -82,7 +78,6 @@ class Wallet:
         return ((private_key).decode(), (public_key).decode())
         #return (binascii.b2a_hex(private_key.export_key(format='DER')).decode('ascii'), binascii.b2a_hex(public_key.export_key(format='DER')).decode('ascii'))
 
-
     def sign_transaction(self, sender, recipient, amount):
         
         h = SHA3_256.new((str(sender) + str(recipient) + str(amount)).encode('utf8'))
@@ -90,17 +85,28 @@ class Wallet:
         #return binascii.hexlify(signature).decode('ascii')
         print('\nsignature: {}\n'.format(signature.hex()))
         #return signature.hex()
-        print(binascii.hexlify(signature).decode())
+        #print(binascii.hexlify(signature).decode())
         return binascii.hexlify(signature).decode()
        
+    '''
+    Raises: ValueError – if the signature is not authentic
 
+    and it always return False if it is successful.
+
+    So rather than checking the return value, you need to check if the method raises an exception.
+    '''
     @staticmethod
     def verify_transaction(transaction):
         # If is MINING sender, we don't have to validate, because MINING does't have a valid signature.
         public_key = ECC.import_key(transaction.sender)
-        verifier = DSS.new(public_key, 'fips-186-3')
+        #verifier = DSS.new(public_key, 'fips-186-3')
         h = SHA3_256.new((str(transaction.sender) + str(transaction.recipient) + str(transaction.amount)).encode('utf8'))
-        #return (verifier.verify(h, binascii.unhexlify(transaction.signature)))
+        verifier = DSS.new(public_key, 'fips-186-3')
+        try:
+           verifier.verify(h, binascii.unhexlify(transaction.signature))
+           print ("The message is authentic.")
+        except ValueError:
+           print ("The message is not authentic.")
+           #return (verifier.verify(h, binascii.unhexlify(transaction.signature)))
         return (binascii.unhexlify(transaction.signature))
       
-     
