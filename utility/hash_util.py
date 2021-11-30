@@ -8,7 +8,6 @@ import json
 def hash_string_256(string):
     return hl.sha256(string).hexdigest()
 
-
 def hash_block(block):
     '''  hashlib.sha256(value) where value is a string, so we cannot pass the block value directly, because it's a dictionary
          json.dumps converts the dictionary type to string because the sha256 function only works with strings

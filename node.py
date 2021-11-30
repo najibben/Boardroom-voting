@@ -10,7 +10,7 @@ from wallet import Wallet
 from blockchain import Blockchain
 from network import Network
 
-LOG_IN_LENGTH = 3
+LOG_IN_LENGTH = 5
 
 app = Flask(__name__)
 CORS(app)
@@ -229,6 +229,7 @@ def vote():
             'message2': 'Log out successfully.'
         }
         return jsonify(response), 400
+    
     global blockchain
     if blockchain.get_users(recipient):
         response = {
@@ -236,6 +237,10 @@ def vote():
             'message2': 'Log out successfully.'
         }
         return jsonify(response), 400
+    
+    
+    
+    
     # Starting to vote or mine
     wallet.create_keys()
     if not wallet.save_keys():
@@ -298,6 +303,19 @@ def statistics():
         'var_votes': total_votes
     }
     return jsonify(response), 201
+
+@staticmethod
+def verifyChallenge(c, y, p, cipher1):
+        '''ALICE is trying to ascertain that bob has the info'''
+        # this is the function that is trying to determine if values are known 
+        cipher2 =  (c*y)%p
+        if cipher2 == cipher1:
+            # Alice is atleast partially convinced that Bob knows x 
+            return True
+        else:
+            return False
+
+
 
 port = os.getenv('VCAP_APP_PORT', '8000')
 if __name__ == '__main__':  # To ensure that I'm running this by directly executing this file.

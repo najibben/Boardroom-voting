@@ -6,151 +6,158 @@ last modified:
 description:
 */
 
-        .lds-ring {
-            display: inline-block;
-            position: relative;
-            width: 64px;
-            height: 64px;
-        }
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
 
-        .lds-ring div {
-            box-sizing: border-box;
-            display: block;
-            position: absolute;
-            width: 51px;
-            height: 51px;
-            margin: 6px;
-            border: 6px solid #fa923f;
-            border-radius: 50%;
-            animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-            border-color: #fa923f transparent transparent transparent;
-        }
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    padding: 3% 3%;
+    font-family: sans-serif, Arial;
+    font-size: 16px;
+    border: 2px solid #444;
+    border-radius: 4px;
+}
 
-        .lds-ring div:nth-child(1) {
-            animation-delay: -0.45s;
-        }
+.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
 
-        .lds-ring div:nth-child(2) {
-            animation-delay: -0.3s;
-        }
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
 
-        .lds-ring div:nth-child(3) {
-            animation-delay: -0.15s;
-        }
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
 
-        @keyframes lds-ring {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
-        /* *************************************************** */
-        /* *************************************************** */
-        /*TITLE AND BUTTON MENU*/
-        .nav-pills .nav-item .nav-link:not(.active) {
-            background-color: rgba(153, 153, 102, 0.5);
-            color: #7a7a52;
-        }
-        .nav-pills .nav-item .nav-link {
-            /*background-color: rgba(102, 0, 51);*/
-            background-color: #007bff;
-            color: #ffffff;
-        }
+/* *************************************************** */
+/* *************************************************** */
+/*TITLE AND BUTTON MENU*/
+.nav-pills .nav-item .nav-link:not(.active) {
+    background-color: rgba(233, 233, 223, 0.5);
+    color: #000000;
+}
+.nav-pills .nav-item .nav-link {
+    /*background-color: rgba(102, 0, 51);*/
+    background-color: #f0f4f8;
+    color: #000000;
+}
 
-        .nav-item:hover {
-            background-color: rgba(153, 153, 102, 0.8);
-            color: #7a7a52;
-        }
+.nav-item:hover {
+    background-color: rgba(231, 231, 220, 0.8);
+    color: #000000;
+}
 
-        h1 {
-            font-family: "Times New Roman";
-        }
+h1 {
+    font-family: "Times New Roman";
+}
 
-        .jumbotron-h1 {
-          padding: 30px;
-          background-color: #ffffff;
-          opacity: 0.8;
-          color: #000000;
-        }
-        /* *************************************************** */
-        /* *************************************************** */
+.jumbotron-h1 {
+  padding: 30px;
+  background-color: #ffffff;
+  opacity: 0.8;
+  color: #000000;
+}
+/* *************************************************** */
+/* *************************************************** */
 
-        /*Log in*/
-        .jumbotron-user {
-          padding: 30px;
-          background-color: #cccccc;
-          font-variant: small-caps;
-        }
+/*Log in*/
+.jumbotron-user {
+  background-color: #d3e4d4; /* Green */
+  border: none;
+  color:#000000;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
 
-        /*Candidates effect*/
-        /*-----------------------------*/
-        /* card-deck card_candidates card-img-top card-body */
-        .card_candidates {
-          background-color: #ccff99;
-        }
-        .card_candidates:hover {
-          background-color: #ffb84d;
-          opacity: 1;
-          color: #000000;
-        }
-        .jumbotron-candidates {
-          background-color: #f0f0f0;
-        }
-        .card-title {
-          font-weight: bold;
-        }
-        .card-text {
-          font-style: italic;
-        }
-        #candidate_title {
-          font-weight: bold;
-          font-variant: small-caps;
-        }
-        /*Configutation if the candidates buttons*/
-        #vote_button1, #vote_button2, #vote_button3, #vote_button4, #vote_button5, #vote_button6{
-            background-color: #006600;
-            color: #ffffff;
-        }
-        #vote_button1:hover {background-color: #008000; color: #000000; font-weight: bold;}
-        #vote_button2:hover {background-color: #008000; color: #000000; font-weight: bold;}
-        #vote_button3:hover {background-color: #008000; color: #000000; font-weight: bold;}
-        #vote_button4:hover {background-color: #008000; color: #000000; font-weight: bold;}
-        #vote_button5:hover {background-color: #008000; color: #000000; font-weight: bold;}
-        #vote_button6:hover {background-color: #008000; color: #000000; font-weight: bold;}
-        /*-----------------------------*/
-
-
-        /*_________________________________________________*/
-        /*Blockchain*/
-        .list-group-item_bc {
-          background-color: #ffd699;
-          color: #000000;
-        }
-        .card_bc {
-          background-color: #e0e0d1;
-          color: #000000;
-        }
-        .card_bc:hover .list-group-item_bc {
-          background-color: #ffc266;
-          color: #000000;
-        }
-        .card_bc:hover {
-          background-color: #b7b795;
-          color: #000000;
-        }
-        .jumbotron-info {
-          background-color: #ffffff;
-        }
-        /*_________________________________________________*/
+/*Candidates effect*/
+/*-----------------------------*/
+/* card-deck card_candidates card-img-top card-body */
+.card_candidates {
+  background-color: #ccff99;
+}
+.card_candidates:hover {
+  background-color: rgb(215, 226, 230);
+  cursor: pointer;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);  
+  opacity: 1;
+  color: #000000;
+}
+.jumbotron-candidates {
+  background-color: #f7f5f9;
+}
+.card-title {
+  font-weight: bold;
+}
+.card-text {
+  font-style: sans-serif, Arial;
+}
+#candidate_title {
+  font-weight: bold;
+  font-variant: small-caps;
+}
+/*Configutation if the candidates buttons*/
+#vote_button1, #vote_button2, #vote_button3, #vote_button4, #vote_button5, #vote_button6{
+    background-color: #ccff99;
+    color: #000000;
+}
+#vote_button1:hover {background-color: #000020; color: #000000; font-weight: bold;}
+#vote_button2:hover {background-color: #000020; color: #000000; font-weight: bold;}
+#vote_button3:hover {background-color: #000020; color: #000000; font-weight: bold;}
+/*-----------------------------*/
 
 
-        .chart {
-          width: 100%;
-          min-height: 450px;
-        }
-        .row-graph {
-          margin:0 !important;
-        }
+/*_________________________________________________*/
+/*Blockchain*/
+.list-group-item_bc {
+  background-color: #000000;  
+  color:#ccff99;
+}
+.card_bc {
+  background-color:#000000;
+  color: #ccff99;
+}
+.card_bc:hover .list-group-item_bc { 
+  background-color: rgb(241, 244, 245);
+  color: #ccff99;
+}
+.card_bc:hover {
+  background-color: #000000;
+  color: #ccff99;
+}
+.jumbotron-info {
+  background-color: #000000;
+}
+/*_________________________________________________*/
+
+
+.chart {
+  width: 100%;
+  min-height: 450px;
+}
+.row-graph {
+  margin:0 !important;
+}
