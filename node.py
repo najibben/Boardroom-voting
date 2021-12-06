@@ -254,7 +254,7 @@ def user_log_in():
                      return jsonify(response), 201        
                       
     response = {
-        'message': 'no elegible to vote'
+        'message': 'no elegible to vote register in your node URL route /form.html'
     }
           
 

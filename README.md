@@ -1,5 +1,10 @@
 #  PoC Boardroom Voting
-A PoC of a secure end-to-end verifiable e-voting system using zero knowledge based blockchain PoC
+A PoC of a secure end-to-end verifiable e-voting system using zero knowledge based blockchain PoC for testing a mixture
+of public and private EC e-voting. the user will commit the ballot ( 0 or 1), once is legit he can proceed to vote transacions
+will be recorded in the public blockchain.
+
+web: python node.py
+register : http://url/form.html
 
 <br><br>
 ## INTRODUCTION
