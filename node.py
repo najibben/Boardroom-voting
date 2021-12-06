@@ -16,19 +16,26 @@ import os
 from flask import Flask, jsonify, request, send_from_directory, render_template
 from werkzeug import datastructures
 from flask_cors import CORS
+from transaction import Transaction
 from wallet import Wallet
 from blockchain import Blockchain
 from network import Network
 import crypto
 import json
 import random
+import csv
+import re
 from flask import render_template, session
+import pandas as pd
+import numpy as np
 
 
 LOG_IN_LENGTH = 5
 
 app = Flask(__name__)
 CORS(app)
+
+
 
 
 @app.route('/', methods=['GET'])  # Decorator
@@ -224,11 +231,32 @@ def user_log_in():
             'message': 'The user already voted!'
         }
         return jsonify(response), 400
+
     if not blockchain.get_users(recipient):
-        response = {
-           'message': 'User: ' + recipient + ' has been successfully logged in.',
-           'all_user': recipient
+            csv_file = open('ballots.csv', 'r')
+            csv_reader = csv.DictReader(csv_file)
+            credentials = csv.reader(csv_file)
+            credentials = pd.read_table('ballots.csv', sep=',')
+            #print (credentials.loc[0:2])
+            with open('ballots.csv', mode='r') as infile:
+               reader = csv.reader(infile) 
+               for row in reader:
+                match = row[0]
+                print (match)
+                recipient = values['recipient']
+                print ((recipient))
+                if (match == recipient):
+                     response = {
+                      'message': 'User: ' + recipient + ' has been successfully logged in.',
+                      'all_user': recipient
+                       
+                     }
+                     return jsonify(response), 201        
+                      
+    response = {
+        'message': 'no elegible to vote'
     }
+          
 
     if not blockchain.verify_users():
         response = {
@@ -236,7 +264,9 @@ def user_log_in():
         }
         return jsonify(response), 400
     
-    return jsonify(response), 201
+    return jsonify(response), 400
+
+
 
 
 '''
@@ -285,6 +315,7 @@ def ballot():
             proof = [str(s) for s in proof]
             line = '{0},{1},{2}\n'.format(credentials, ','.join(cipher), ','.join(proof))
             file.write(line)
+            
         return 'Access', 200
     return 'Denied', 200
 
@@ -417,8 +448,8 @@ if __name__ == '__main__':  # To ensure that I'm running this by directly execut
     # ArgumentParser is a tool that allow us to parse arguments that pass along python file line command
     # For instance, we can run our file like "python3 node.py -p 5000" or "python3 node.py --port 5001"
     pk, sk = crypto.generate_keys()
-    if os.path.isfile('ballots.csv'):
-       os.remove('ballots.csv')    
+    #if os.path.isfile('ballots.csv'):
+      # os.remove('ballots.csv')    
     from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('-p', '--port', type=int, default=5001)

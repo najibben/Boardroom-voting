@@ -1,5 +1,6 @@
 /**
  * Created by Henrikh Kantuni on 12/14/17.
+ * ZKP Proof in Client side
  */
 
 

@@ -57,7 +57,6 @@ class Blockchain:
      
     @staticmethod
     def verifyChallenge(c, y, p, cipher1):
-        '''Alice is trying to ascertain that Bob has the info'''
         # this is the function that is trying to determine if values are known 
         cipher2 =  (c*y)%p
         if cipher2 == cipher1:
@@ -167,23 +166,16 @@ class Blockchain:
      g=13
      x=1 
      r = random.randrange(2, 100)
-     print ('p=',p)
-     print ('g=',g)
-     print ('x=',x)
-     print ('r=',r)
-     print ('========')
     # y= g**x % p
      y = pow(g, x, p)
-     print ('Y=',y)
-
+ 
     # c = g**r % p
      c = pow(g, r, p) # (g^r) mod p
-     print ('C=',c)
-
+    
      print ('========')
     # cipher1=g**((x+r)%(p-1))  % p
      cipher1 = pow(g, ((x+r)%(p-1)), p)
-     print ('g^(x+r)%(p-1) mod p=',cipher1)
+    # print ('g^(x+r)%(p-1) mod p=',cipher1)
 
      #cipher1 = pow(g, ((x+r)%(p-1)), p)
      if not self.verifyChallenge(c, y, p, cipher1):

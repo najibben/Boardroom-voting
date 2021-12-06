@@ -1,5 +1,5 @@
-# Boardroom Voting
-A secure end-to-end verifiable e-voting system using zero knowledge based blockchain PoC
+#  PoC Boardroom Voting
+A PoC of a secure end-to-end verifiable e-voting system using zero knowledge based blockchain PoC
 
 <br><br>
 ## INTRODUCTION
@@ -47,12 +47,18 @@ private blockchain
 
 ## Functionality
 
-Elliptic Curve Cryptography (ECC) with Hazmat EC Key Generation primitives within the crytogrpahy library
+
+Private blockchain : Elliptic Curve Cryptography (ECC) with Hazmat EC Key Generation primitives within the crytogrpahy library to verifiy the transactions.the security of remote participation must be viable, and for scalability, transaction speed must be addressed. Due to these concerns, it was determined that the existing frameworks need to be improved to be utilized in voting systems.
 
 Digital Signature Algorithm (DSA and ECDSA) A variant of the ElGamal signature, specified in FIPS PUB 186-4.
 It is based on the discrete logarithm problem in a prime finite field (DSA) or in an elliptic curve field (ECDSA).
 
-ZKP proof cryptography is used.
+Public blockchain :  ballots need to be accepted anonymously but only from eligible voters, so a blockchain by itself definitely cannot solve the issue of voter privacy. The voter encrypts their ballot  and casts it, so that the voting officials received the encrypted ballot.
+The voting officials post encrypted ballots on a bulletin board
+
+Secure Tallying: Homomorphic Encryption ElGamal accept elliptic curve variants. They rely on hardness of discrete logarithm on elliptic curves, which is distinct from discrete logarithms modulo a big prime. Elliptic curve variants can use smaller fieldsso the performance is better.
+
+
 
 
 ## References
