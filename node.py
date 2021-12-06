@@ -242,9 +242,9 @@ def user_log_in():
                reader = csv.reader(infile) 
                for row in reader:
                 match = row[0]
-                print (match)
+                #print (match)
                 recipient = values['recipient']
-                print ((recipient))
+                #print ((recipient))
                 if (match == recipient):
                      response = {
                       'message': 'User: ' + recipient + ' has been successfully logged in.',
@@ -258,11 +258,11 @@ def user_log_in():
     }
           
 
-    if not blockchain.verify_users():
+    if blockchain.verify_users():
         response = {
-            'message': 'ZERO KNOWLEDGE PROOF VERIFICATION FAILED'
+            'message': 'ZERO KNOWLEDGE PROOF VERIFICATION PASS'
         }
-        return jsonify(response), 400
+        return jsonify(response), 201
     
     return jsonify(response), 400
 
