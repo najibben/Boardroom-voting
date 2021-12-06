@@ -258,11 +258,11 @@ def user_log_in():
     }
           
 
-    if blockchain.verify_users():
+    if not blockchain.verify_users():
         response = {
-            'message': 'ZERO KNOWLEDGE PROOF VERIFICATION PASS'
+            'message': 'ZERO KNOWLEDGE PROOF VERIFICATION FAILED'
         }
-        return jsonify(response), 201
+        return jsonify(response), 400
     
     return jsonify(response), 400
 
