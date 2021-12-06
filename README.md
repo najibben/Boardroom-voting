@@ -1,9 +1,5 @@
 # Boardroom Voting
-
-<p align="center">
-  <img src="/static/github/octocat.png" alt="octocat" width="150" height="150"/>
-  <img src="/static/github/python.png" alt="python" width="150" height="150"/>
-</p>
+A secure end-to-end verifiable e-voting system using zero knowledge based blockchain PoC
 
 <br><br>
 ## INTRODUCTION
