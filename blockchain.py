@@ -1,19 +1,14 @@
-""" ANACONDA: To open anaconda use the command line       $ anaconda-navigator
- ANACONDA: And the in Pycharm you can activate your Environtments, in this case is on terminal:
-
- $ source activate pycoin
-
- ANACONDA: Now it will change to (pycoin) at the beginning of the user. For instance, (pycoin) w11@w11: path$
+""" this code is reused  [17] https://github.com/jdacode/Blockchain-Electronic-Voting-System
+  for testing purposes, tested new functionality Asymmetric Private-Public-key encryption algorithm ECDSA.
+  Digital Signature Algorithm (DSA and ECDSA) A variant of the ElGamal signature, specified in FIPS PUB 186-4.
+It is based on the discrete logarithm problem in a prime finite field (DSA) or in an elliptic curve field (ECDSA).
 """
-# Initializing our blockchain list
 
-# PYTHON imports
+
 from functools import reduce
-# import hashlib as hl
 import json
-# import pickle
 import requests
-# MY imports
+import random
 from utility.hash_util import hash_block
 from utility.verification import Verification
 from block import Block
@@ -59,6 +54,17 @@ class Blockchain:
 
     def get_open_transactions(self):
         return self.__open_transactions[:]
+     
+    @staticmethod
+    def verifyChallenge(c, y, p, cipher1):
+        '''Alice is trying to ascertain that Bob has the info'''
+        # this is the function that is trying to determine if values are known 
+        cipher2 =  (c*y)%p
+        if cipher2 == cipher1:
+            # Alice is at least partially convinced that Bob knows x 
+            return True
+        else:
+            return False
 
     def load_data(self):
         try:
@@ -154,7 +160,37 @@ class Blockchain:
          # rx_recipient return true if the user already voted
          tx_recipient = any([[tx.recipient for tx in block.transactions if tx.recipient == search] for block in self.__chain])
          return tx_recipient
+     
+     
+    def verify_users(self):
+     p=997
+     g=13
+     x=1 
+     r = random.randrange(2, 100)
+     print ('p=',p)
+     print ('g=',g)
+     print ('x=',x)
+     print ('r=',r)
+     print ('========')
+    # y= g**x % p
+     y = pow(g, x, p)
+     print ('Y=',y)
 
+    # c = g**r % p
+     c = pow(g, r, p) # (g^r) mod p
+     print ('C=',c)
+
+     print ('========')
+    # cipher1=g**((x+r)%(p-1))  % p
+     cipher1 = pow(g, ((x+r)%(p-1)), p)
+     print ('g^(x+r)%(p-1) mod p=',cipher1)
+
+     #cipher1 = pow(g, ((x+r)%(p-1)), p)
+     if not self.verifyChallenge(c, y, p, cipher1):
+                print("FATAL ERROR: ZERO KNOWLEDGE PROOF VERIFICATION FAILED")
+                return False
+     return True
+      
 
     def get_votes(self):
          tx_votes = [[tx.amount for tx in block.transactions] for block in self.__chain]
@@ -298,3 +334,6 @@ class Blockchain:
     def get_peer_nodes(self):
          """ Return a list of all connected peer nodes."""
          return list(self.__peer_nodes)
+
+
+   

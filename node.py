@@ -1,24 +1,43 @@
 """
+A blockchain different from the public blockchain used to store the encrypted ballot. (/form.html)
+We use a private blockchain where only authenticated and trusted party can join in the network and will securely delete
+all information about fingerprint and voter information after
+the end of election process
+
+
+render_template = generate output from a template file based on the Jinja2 engine
+that is found in the application's templates folder.
+send_from_directory = send back a file upon request, in this case HTML file
 send_from_directory = send back a file upon request, in this case HTML file
 jsonify = convert json library
 request = Receive data from POST request, it gives us access to incoming request
 """
 import os
 from flask import Flask, jsonify, request, send_from_directory, render_template
+from werkzeug import datastructures
 from flask_cors import CORS
 from wallet import Wallet
 from blockchain import Blockchain
 from network import Network
+import crypto
+import json
+import random
+from flask import render_template, session
+
 
 LOG_IN_LENGTH = 5
 
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route('/', methods=['GET'])  # Decorator
 def get_node_ui():
     return send_from_directory('ui', 'node.html')
 
+@app.route('/form')
+def index():
+    return render_template('form.html')
 
 @app.route('/statistics', methods=['GET'])  # Decorator
 def get_statistics_ui():
@@ -185,6 +204,8 @@ def user_log_in():
             'message': 'ID should be ' + str(LOG_IN_LENGTH) + ' digits long and only numbers!!!'
         }
         return jsonify(response), 400
+   
+    '''
     global blockchain
     if blockchain.get_users(recipient):
         response = {
@@ -195,8 +216,98 @@ def user_log_in():
         'message': 'User: ' + recipient + ' has been successfully logged in.',
         'all_user': recipient
     }
+   # return jsonify(response), 201
+    '''
+    global blockchain
+    if blockchain.get_users(recipient):
+        response = {
+            'message': 'The user already voted!'
+        }
+        return jsonify(response), 400
+    if not blockchain.get_users(recipient):
+        response = {
+           'message': 'User: ' + recipient + ' has been successfully logged in.',
+           'all_user': recipient
+    }
+
+    if not blockchain.verify_users():
+        response = {
+            'message': 'ZERO KNOWLEDGE PROOF VERIFICATION FAILED'
+        }
+        return jsonify(response), 400
+    
     return jsonify(response), 201
 
+
+'''
+Election administrator updates list	of eligible voters
+
+'''
+     
+@app.route('/setup', methods=['POST'])
+def setup():
+    ballots = []
+    with open('ballots.csv', 'a+') as file:
+        file.seek(0)
+        for line in file:
+            ballots.append(line.strip())
+
+    response = {
+        'p': crypto.p,
+        'q': crypto.q,
+        'g': crypto.g,
+        'pk': pk,
+        'ballots': ballots
+    }
+    return json.dumps(response)
+
+'''
+Observer (form.html) can watch the election’s progress consisting of
+the election administrator starting and closing each stage and voters registering and casting votes. 
+The running tally is not computable.
+This encrypted biometric data along with voter identification number, name etc.
+are combined in the form (Voter identification number, name,
+encrypted biometric data, Flag-”Not voted”) and stored in a
+private blockchain
+'''
+
+@app.route('/ballot', methods=['POST'])
+def ballot():
+    data = request.data.decode('utf-8')
+    data = json.loads(data)
+    credentials = data['credentials']
+    cipher = data['cipher']
+    proof = data['proof']
+
+    if crypto.verify_vote(pk, cipher, proof):
+        with open('ballots.csv', 'a') as file:
+            cipher = [str(s) for s in cipher]
+            proof = [str(s) for s in proof]
+            line = '{0},{1},{2}\n'.format(credentials, ','.join(cipher), ','.join(proof))
+            file.write(line)
+        return 'Access', 200
+    return 'Denied', 200
+
+
+@app.route('/tally', methods=['POST'])
+def tally():
+    ballots = []
+    with open('ballots.csv', 'r') as file:
+        for line in file:
+            line = line.strip().split(',')
+            ballots.append((int(line[1]), int(line[2])))
+
+    a, b = crypto.add(ballots)
+    yes = crypto.decrypt(sk, a, b)
+    proof = crypto.correct_decryption_proof(pk, sk, a, b)
+    response = {
+        'yes': yes,
+        'no': len(ballots) - yes,
+        'cipher': [a, b],
+        'proof': proof
+    }
+    print (response)
+    return json.dumps(response)
 
 @app.route('/userlogout', methods=['GET'])
 def user_log_out():
@@ -237,10 +348,7 @@ def vote():
             'message2': 'Log out successfully.'
         }
         return jsonify(response), 400
-    
-    
-    
-    
+      
     # Starting to vote or mine
     wallet.create_keys()
     if not wallet.save_keys():
@@ -303,24 +411,14 @@ def statistics():
         'var_votes': total_votes
     }
     return jsonify(response), 201
-
-@staticmethod
-def verifyChallenge(c, y, p, cipher1):
-        '''ALICE is trying to ascertain that bob has the info'''
-        # this is the function that is trying to determine if values are known 
-        cipher2 =  (c*y)%p
-        if cipher2 == cipher1:
-            # Alice is atleast partially convinced that Bob knows x 
-            return True
-        else:
-            return False
-
-
-
+    
 port = os.getenv('VCAP_APP_PORT', '8000')
 if __name__ == '__main__':  # To ensure that I'm running this by directly executing this file.
     # ArgumentParser is a tool that allow us to parse arguments that pass along python file line command
     # For instance, we can run our file like "python3 node.py -p 5000" or "python3 node.py --port 5001"
+    pk, sk = crypto.generate_keys()
+    if os.path.isfile('ballots.csv'):
+       os.remove('ballots.csv')    
     from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('-p', '--port', type=int, default=5001)
@@ -329,4 +427,6 @@ if __name__ == '__main__':  # To ensure that I'm running this by directly execut
     port = int(os.getenv('VCAP_APP_PORT', '8080'))
     wallet = Wallet(port)
     blockchain = Blockchain(wallet.public_key, port)
+
     app.run(host='0.0.0.0', port=port)
+

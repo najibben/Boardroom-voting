@@ -97,17 +97,17 @@ h1 {
 /*-----------------------------*/
 /* card-deck card_candidates card-img-top card-body */
 .card_candidates {
-  background-color: #ccff99;
+  background-color: #b9f8b9;
 }
 .card_candidates:hover {
-  background-color: rgb(215, 226, 230);
+  background-color:  rgb(229, 255, 0);
   cursor: pointer;
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);  
+  box-shadow: 0 12px 16px 0 rgba(243, 240, 240, 0.24),0 17px 50px 0 rgba(0,0,0,0.19);  
   opacity: 1;
-  color: #000000;
+  color: #f3f1f1;
 }
 .jumbotron-candidates {
-  background-color: #f7f5f9;
+  background-color: #ebeee5;
 }
 .card-title {
   font-weight: bold;
@@ -120,13 +120,13 @@ h1 {
   font-variant: small-caps;
 }
 /*Configutation if the candidates buttons*/
-#vote_button1, #vote_button2, #vote_button3, #vote_button4, #vote_button5, #vote_button6{
-    background-color: #ccff99;
-    color: #000000;
+#vote_button1, #vote_button2, #vote_button3{
+    background-color: #181817;
+    color: hsl(204, 20%, 95%);
 }
-#vote_button1:hover {background-color: #000020; color: #000000; font-weight: bold;}
-#vote_button2:hover {background-color: #000020; color: #000000; font-weight: bold;}
-#vote_button3:hover {background-color: #000020; color: #000000; font-weight: bold;}
+#vote_button1:hover {background-color: #08eb27; color: #000000; font-weight: bold;}
+#vote_button2:hover {background-color: #0909f0; color: #000000; font-weight: bold;}
+#vote_button3:hover {background-color: #ee3d11; color: #000000; font-weight: bold;}
 /*-----------------------------*/
 
 

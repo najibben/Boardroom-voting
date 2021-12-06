@@ -1,3 +1,4 @@
+
 from collections import OrderedDict
 from utility.printable import Printable
 
@@ -15,7 +16,7 @@ class Transaction(Printable):
     """
     def __init__(self, sender, recipient, signature, amount):
         self.sender = sender                # Public key
-        self.recipient = recipient          # Student ID
+        self.recipient = recipient          # Voter ID
         self.amount = amount                # Vote
         self.signature = signature          # Signature
 

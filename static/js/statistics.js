@@ -20,12 +20,9 @@ function drawVotesColumn(result) {
 
           var data = google.visualization.arrayToDataTable([
             ['Candidate', 'Votes', { role: 'style' } ],
-            ['Candidate #1', result[0], 'color:' + winner[0] + '; opacity:' + opc],
-            ['Candidate #2', result[1], 'color:' + winner[1] + '; opacity:' + opc],
-            ['Candidate #3', result[2], 'color:' + winner[2] + '; opacity:' + opc],
-            ['Candidate #4', result[3], 'color:' + winner[3] + '; opacity:' + opc],
-            ['Candidate #5', result[4], 'color:' + winner[4] + '; opacity:' + opc],
-            ['Candidate #6', result[5], 'color:' + winner[5] + '; opacity:' + opc]
+            ['Alice', result[0], 'color:' + winner[0] + '; opacity:' + opc],
+            ['Bob', result[1], 'color:' + winner[1] + '; opacity:' + opc],
+            ['Charlie', result[2], 'color:' + winner[2] + '; opacity:' + opc],
           ]);
 
           var options = {
@@ -59,12 +56,9 @@ function drawVotesColumn(result) {
     function drawVotesDonut(result) {
           var data = google.visualization.arrayToDataTable([
             ['Candidate', 'Votes'],
-            ['Candidate #1', result[0]],
-            ['Candidate #2', result[1]],
-            ['Candidate #3', result[2]],
-            ['Candidate #4', result[3]],
-            ['Candidate #5', result[4]],
-            ['Candidate #6', result[5]]
+            ['Alice', result[0]],
+            ['Bob', result[1]],
+            ['Charlie', result[2]]
           ]);
 
           var options = {
