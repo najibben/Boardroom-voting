@@ -1,5 +1,5 @@
-# Blockchain E-Voting System
-*`[1][2]`*
+# Boardroom Voting
+
 <p align="center">
   <img src="/static/github/octocat.png" alt="octocat" width="150" height="150"/>
   <img src="/static/github/python.png" alt="python" width="150" height="150"/>
@@ -19,6 +19,7 @@ Blockchain is a shared, immutable ledger that facilitates the process of recordi
 [1]
 Public key cryptography in Blockchain is used for all validators that own their key pairs to sign consensus messages and all
 the transactions need to be signed to determine the requester. Anonymity in a blockchain context related to the fact anyone that control a wallet just need to generate a random keypair and use this wallet associated to a public key.Due to the Inmutability, Provenance, Decentralization,Anonymity and Transparency, we consider that Blockchain can transform the Electronic Voting System.
+Tallying voting protocol for boardroom voting 
 
 
 ## Problems  
