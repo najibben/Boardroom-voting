@@ -59,7 +59,8 @@
    e.preventDefault();
  
    let request = new Request('/tally', {
-     method: 'POST'
+     method: 'POST',
+    
    });
  
    fetch(request)

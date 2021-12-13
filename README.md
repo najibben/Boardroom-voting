@@ -30,7 +30,7 @@ Tallying voting protocol for boardroom voting
 * Privacy : (no one except the voter can obtain information about the voter's choice)
 * Fairness : no one can obtain intermediate voting results
 * Soundness : Invalidad ballots should be detected and not taken into account during tallying
-*Completeness : all valid ballots should be tallied correctly.
+* Completeness : all valid ballots should be tallied correctly.
 
 
 <br>
