@@ -1,7 +1,18 @@
 #  PoC Boardroom Voting
 A PoC of a secure end-to-end verifiable e-voting system using zero knowledge based blockchain PoC for testing a mixture
-of public and private EC e-voting. the user will commit the ballot ( 0 or 1), once is legit he can proceed to vote transacions
-will be recorded in the public blockchain.
+of public and private EC e-voting. the user will commit the ballot ( 0 or 1), once is legit he can proceed to vote, transacions
+will be recorded in the private blockchain. [2] We can extend the above single-candidate protocol to cater for multiple candidates Obviously, if there are only two candidates, the same protocol can be used – instead of sending ‘yes/no’, one simply sends ‘A/B’. 
+
+We will use this protocol as a cryptographic primitive that allows one to commit to a chosen value (or chosen statement) while keeping it hidden to others in the public bulletin, with the ability to reveal the committed value later, voting on the blockchain will be an encrypted piece of data that is fully open and publicly stored on a distributed blockchain network rather than a single server., [5].To lower the risk of mass interference thite data would be encrypted after biometrics we will use a PIN assigned to the user and ID in the private blockchain
+
+
+ Katuni [4] demostrated that The Chaum-Pedersen protocol also can be used to prove that an ElGamal ciphertext [5] `(G′,M′) = (Gys,Mgs)` is a reencryption of `(G,M) = (myr,gr)` without revealing the randomization factor s. The proof is, `CP (y,G′/G,g,M′/M)` which implies that there exists a value s such that `logy(G′/G) = logg(M′/M)`. Moreover, the Chaum-Pedersen protocol can be used to prove that an ElGamal ciphertext has been correctly decrypted.
+
+
+
+TODO
+[5] implementation of Cramer-Damgård-Schoenmakers Protocol
+The witness hiding/indistinguishable protocol was introduced by Cramer et al. [22]; therefore, it is also known as the CDS protocol. It can be used to prove that a party knows the solution of k out of n problems without revealing which problems she can solve. This protocol is normally used in verifiable voting schemes to prove that a ciphertext is an encryption of one value within a subset of different values
 
 web: python node.py
 register : http://url/form.html
@@ -74,11 +85,15 @@ For a lightweight device, we will struggle to perform these sizes of operations.
 And so Elliptic Curve Cryptography (ECC) has come to our rescue, and where we use typical key sizes of just 256 bits. 
 In fact, Bitcoin and Ethereum, and most blockchain methods use ECC for their keys. 
 
-[1] https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8434614/
+[2] http://homepages.cs.ncl.ac.uk/feng.hao/files/OpenVote_IET.pdf
 
 [3] https://github.com/jdacode/Blockchain-Electronic-Voting-System
 
 [4] https://github.com/kantuni/ZKP
+
+[5] https://www.sciencedirect.com/topics/computer-science/knowledge-proof
+
+[6] https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8434614/ 
 
 
 
