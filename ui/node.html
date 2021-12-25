@@ -72,7 +72,7 @@
             <div v-if="error" class="alert alert-danger" role="alert">
                 {{ error }}
             </div>
-            <hr>
+            <hr>    
             <div class="row">
                 <div class="col">
                   <div class="jumbotron jumbotron-candidates" id="ju">
@@ -80,26 +80,11 @@
                     <div class="card-deck">
                       <div class="card border-dark card_candidates">
                         <div class="card-body">
-                          <h5 class="card-title">Alice</h5>
-                          <p class="card-text">Candidate #1</p>
+                          <h5 class="card-title">Confirm ballot</h5>
+                          <p class="card-text">Send vote to blockchain</p>
                           <button class="btn btn-success btn-lg btn-block" id="vote_button1" @click="onVote(1)">Vote</button>
                         </div>
                       </div>
-                      <div class="card border-dark card_candidates">
-                        <div class="card-body">
-                          <h5 class="card-title">Bob</h5>
-                          <p class="card-text">Candidate #2</p>
-                          <button class="btn btn-success btn-lg btn-block" id="vote_button2" @click="onVote(2)">Vote</button>
-                        </div>
-                      </div>
-                      <div class="card border-dark card_candidates">
-                        <div class="card-body">
-                          <h5 class="card-title">Charlie</h5>
-                          <p class="card-text">Candidate #3</p>
-                          <button class="btn btn-success btn-lg btn-block" id="vote_button3" @click="onVote(3)">Vote</button>
-                        </div>
-                      </div>
-                    </div>
                     <br>
                     </div>
                   </div>
@@ -109,7 +94,6 @@
             <hr>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
@@ -144,8 +128,6 @@
                             document.getElementById("userb1").disabled = true;
                             document.getElementById("userb2").disabled = false;
                             document.getElementById("vote_button1").disabled = false;
-                            document.getElementById("vote_button2").disabled = false;
-                            document.getElementById("vote_button3").disabled = false;
                             document.getElementById("ju").style.display = "block";
                         })
                         .catch(function (error) {
@@ -168,8 +150,6 @@
                             vm.nodes = response.data.all_users;
                             vm.outgoingTx.recipient = '';
                             document.getElementById("vote_button1").disabled = true;
-                            document.getElementById("vote_button2").disabled = true;
-                            document.getElementById("vote_button3").disabled = true;
                             document.getElementById("node-user").disabled = false;
                             document.getElementById("userb1").disabled = false;
                             document.getElementById("userb2").disabled = true;
@@ -184,8 +164,6 @@
                 bodyOnLoad: function () {
                     // alert("body onload");
                     document.getElementById("vote_button1").disabled = true;
-                    document.getElementById("vote_button2").disabled = true;
-                    document.getElementById("vote_button3").disabled = true;
                     document.getElementById("userb2").disabled = true;
                     document.getElementById("ju").style.display = "none";
                 },
@@ -203,8 +181,6 @@
                         // console.log(response.data);
                         vm.outgoingTx.recipient = '';
                         document.getElementById("vote_button1").disabled = true;
-                        document.getElementById("vote_button2").disabled = true;
-                        document.getElementById("vote_button3").disabled = true;
                         document.getElementById("node-user").disabled = false;
                         document.getElementById("userb1").disabled = false;
                         document.getElementById("userb2").disabled = true;
@@ -216,8 +192,6 @@
                         vm.warning = error.response.data.message2;
                         vm.outgoingTx.recipient = '';
                         document.getElementById("vote_button1").disabled = true;
-                        document.getElementById("vote_button2").disabled = true;
-                        document.getElementById("vote_button3").disabled = true;
                         document.getElementById("node-user").disabled = false;
                         document.getElementById("userb1").disabled = false;
                         document.getElementById("userb2").disabled = true;

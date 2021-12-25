@@ -14,6 +14,7 @@ from utility.verification import Verification
 from block import Block
 from transaction import Transaction
 from wallet import Wallet
+import crypto
 
 
 
@@ -183,13 +184,7 @@ class Blockchain:
                 return False
      return True
       
-
-    def get_votes(self):
-         tx_votes = [[tx.amount for tx in block.transactions] for block in self.__chain]
-         tx_votes2 = [tx_votes.count([1]), tx_votes.count([2]), tx_votes.count([3]), tx_votes.count([4]), tx_votes.count([5]), tx_votes.count([6])]
-         return tx_votes2
-
-
+      
     def get_last_blockchain_value(self):
          if len(self.__chain) < 1:
               return None
