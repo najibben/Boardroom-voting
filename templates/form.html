@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Public Blockchain</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">   
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<style>@media screen and (max-width: 768px) { .clsDes { display:none; } .clsmob { 
+  visibility:visible; } 
+  }
+  table, th, td {
+    border:1px solid black;
+  }
+  </style>
+  <body>
+    <h2>Ballot [a,b] </h2>
+    <table style="width:25%">
+      <tr>
+        <td>Alice</td>
+        <td>Bob</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>0</td>
+      </tr>
+    </table>
+    
+    <p>for 2 candidates we use same protocol,  v ∈ {0, 1},<br>where |votesno| = |votestotal| − |votesyes|.</p>
+
+   
+    </style>
+    <body>
+      <h2>Ballot [yes,no] </h2>
+      <table style="width:25%">
+        <tr>
+          <td>Alice</td>
+          <td>Bob</td>
+          <td>Charlie</td>
+        </tr>
+        <tr>
+          <td>1 "yes"</td>
+          <td>0 "no"</td>
+          <td>0 "no"</td>
+        </tr>
+      </table>
+
+        <h2>Ballot [yes,no] </h2>
+        <table style="width:25%">
+          <tr>
+            <td>Alice</td>
+            <td>Bob</td>
+            <td>Charlie</td>
+          </tr>
+          <tr>
+            <td>0 "no"</td>
+            <td>1 "yes"</td>
+            <td>0 "no"</td>
+          </tr>
+        </table>
+
+          <h2>Ballot [yes,no] </h2>
+          <table style="width:25%">
+            <tr>
+              <td>Alice</td>
+              <td>Bob</td>
+              <td>Charlie</td>
+            </tr>
+            <tr>
+              <td>0 "no"</td>
+              <td>0 "no"</td>
+              <td>1 "yes"</td>
+            </tr>
+          </table>
+      
+      <p>for multiples candidates a ballot is "yes" or "no" per candidate k x n computations.</p>
+
+
+    <form autocomplete="off">
+      <label for="credentials">Credentials for VOTER REGISTRATION</label>
+      <input type="text" id="credentials" />
+      <label for="vote">Send Ballot</label>
+      <input type="number" id="vote" />
+      <button type="button" id="send">Send</button>
+    </form>
+    <h3>Bulletin Board</h3>
+    <ul id="board"></ul>
+    <button type="button" id="tally">Tally</button>
+    <script src="/static/helpers.js"></script>
+    <script src="/static/client.js"></script>
+  </body>
+</html>
+
+</html>

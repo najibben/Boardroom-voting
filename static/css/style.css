@@ -1,0 +1,163 @@
+/*
+filename: style.css
+author:
+created:
+last modified:
+description:
+*/
+
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    padding: 3% 3%;
+    font-family: sans-serif, Arial;
+    font-size: 16px;
+    border: 2px solid #444;
+    border-radius: 4px;
+}
+
+.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* *************************************************** */
+/* *************************************************** */
+/*TITLE AND BUTTON MENU*/
+.nav-pills .nav-item .nav-link:not(.active) {
+    background-color: rgba(233, 233, 223, 0.5);
+    color: #000000;
+}
+.nav-pills .nav-item .nav-link {
+    /*background-color: rgba(102, 0, 51);*/
+    background-color: #f0f4f8;
+    color: #000000;
+}
+
+.nav-item:hover {
+    background-color: rgba(231, 231, 220, 0.8);
+    color: #000000;
+}
+
+h1 {
+    font-family: "Times New Roman";
+}
+
+.jumbotron-h1 {
+  padding: 30px;
+  background-color: #ffffff;
+  opacity: 0.8;
+  color: #000000;
+}
+/* *************************************************** */
+/* *************************************************** */
+
+/*Log in*/
+.jumbotron-user {
+  background-color: #d3e4d4; /* Green */
+  border: none;
+  color:#000000;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+/*Candidates effect*/
+/*-----------------------------*/
+/* card-deck card_candidates card-img-top card-body */
+.card_candidates {
+  background-color: #b9f8b9;
+}
+.card_candidates:hover {
+  background-color:  rgb(229, 255, 0);
+  cursor: pointer;
+  box-shadow: 0 12px 16px 0 rgba(243, 240, 240, 0.24),0 17px 50px 0 rgba(0,0,0,0.19);  
+  opacity: 1;
+  color: #f3f1f1;
+}
+.jumbotron-candidates {
+  background-color: #ebeee5;
+}
+.card-title {
+  font-weight: bold;
+}
+.card-text {
+  font-style: sans-serif, Arial;
+}
+#candidate_title {
+  font-weight: bold;
+  font-variant: small-caps;
+}
+/*Configutation if the candidates buttons*/
+#vote_button1, #vote_button2, #vote_button3{
+    background-color: #181817;
+    color: hsl(204, 20%, 95%);
+}
+#vote_button1:hover {background-color: #08eb27; color: #000000; font-weight: bold;}
+#vote_button2:hover {background-color: #0909f0; color: #000000; font-weight: bold;}
+#vote_button3:hover {background-color: #ee3d11; color: #000000; font-weight: bold;}
+/*-----------------------------*/
+
+
+/*_________________________________________________*/
+/*Blockchain*/
+.list-group-item_bc {
+  background-color: #000000;  
+  color:#ccff99;
+}
+.card_bc {
+  background-color:#000000;
+  color: #ccff99;
+}
+.card_bc:hover .list-group-item_bc { 
+  background-color: rgb(241, 244, 245);
+  color: #ccff99;
+}
+.card_bc:hover {
+  background-color: #000000;
+  color: #ccff99;
+}
+.jumbotron-info {
+  background-color: #000000;
+}
+/*_________________________________________________*/
+
+
+.chart {
+  width: 100%;
+  min-height: 450px;
+}
+.row-graph {
+  margin:0 !important;
+}

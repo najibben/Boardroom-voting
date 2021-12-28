@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 # Auto detect text files and perform LF normalization
 * linguist-language=HTML
 * linguist-language=Python
+=======
+* linguist-language=Python
+>>>>>>> cc663cef657b8bcfa571ed9ced6cb9c3076ce312

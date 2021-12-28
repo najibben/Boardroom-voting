@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Boardroom voting</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <!-- http://exploreflask.com/en/latest/static.html -->
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+                <div class="jumbotron jumbotron-h1">
+                          <h1><strong>Boardroom Voting</strong></h1>
+                  </div>
+            </div>
+            </div>
+            <hr>
+            <!-- Button with the link to the other html file. In this case a link between network.html and node.html. -->
+            <!-- COPY AND PASTE FOR A NEW BUTTON -->
+            <div class="row">
+                <div class="col">
+                    <ul class="nav nav-pills nav-fill">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/">Vote</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/statistics">Statistics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/blockchain">Blockchain</a>
+                        </li><!--
+                        <li class="nav-item">
+                            <a class="nav-link" href="/network">Network</a>
+                        </li>-->
+                    </ul>
+                </div>
+            </div>
+          <!-- COPY AND PASTE FOR A NEW BUTTON -->
+          <!-- Button with the link to the other html file. In this case a link between network.html and node.html. -->
+          <hr>
+          <div class="row">
+              <div class="col">
+                <div class="jumbotron jumbotron-user">
+                      <div class="form-group">
+                          <label for="node-user"><h4>Identification:</h4></label>
+                          <input v-model="outgoingTx.recipient" type="text" class="form-control form-control-lg" id="node-user" pattern="[0-9]{5}" title="Only numbers e.g. 12345" placeholder="Enter your ID   e.g. 123" maxlength="5" autocomplete="off" required>
+                          <!--pattern="[0-9]{5}"--><br>
+                          <button :disabled="outgoingTx.recipient.trim() === ''" type="submit" class="btn btn-warning btn-block btn-lg" @click="onUserLogIn" id="userb1">Log In</button>
+                          <button type="submit" class="btn btn-warning btn-block btn-lg" @click="onUserLogOut" id="userb2">Log Out</button>
+                      </div>
+              </div>
+          </div>
+        </div>
+        <hr>   
+
+          <!-- COPY AND PASTE FOR A NEW BUTTON -->
+          <!-- Button with the link to the other html file. In this case a link between network.html and node.html. -->
+        
+            <div v-if="warning" class="alert alert-warning" role="alert">
+                {{ warning }}
+            </div>
+            <div v-if="success" class="alert alert-success" role="alert">
+                {{ success }}
+            </div>
+            <div v-if="error" class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            <hr>    
+            <div class="row">
+                <div class="col">
+                  <div class="jumbotron jumbotron-candidates" id="ju">
+                    <h3 id='candidate_title'>Choose an option: </h3><hr>
+                    <div class="card-deck">
+                      <div class="card border-dark card_candidates">
+                        <div class="card-body">
+                          <h5 class="card-title">Confirm Ballot (OE)</h5>
+                          <p class="card-text">Send ballot to BC</p>
+                          <button class="btn btn-success btn-lg btn-block" id="vote_button1" @click="onVote(1)">Vote</button>
+                        </div>
+                      </div>
+                    <br>
+                    </div>
+                  </div>
+               </div>
+            </div>
+            <br>
+            <hr>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                error: null,
+                success: null,
+                warning: null,
+                users: [],
+                outgoingTx: {
+                    recipient: '',
+                    amount: 0
+                }
+            },
+            mounted:function(){
+                this.bodyOnLoad() //method1 will execute at pageload
+            },
+            methods: {
+                onUserLogIn: function () {
+                    // Send user to backend
+                    var vm = this;
+                    axios.post('/userlogin', {
+                        recipient: this.outgoingTx.recipient,
+                    })
+                        .then(function(response) {
+                            vm.warning = response.data.message;
+                            vm.error = null;
+                            vm.success = null;
+                            vm.users = response.data.all_users
+                            document.getElementById("node-user").disabled = true;
+                            document.getElementById("userb1").disabled = true;
+                            document.getElementById("userb2").disabled = false;
+                            document.getElementById("vote_button1").disabled = false;
+                            document.getElementById("ju").style.display = "block";
+                        })
+                        .catch(function (error) {
+                            vm.success = null;
+                            vm.warning = null;
+                            vm.outgoingTx.recipient = '';
+                            vm.error = error.response.data.message;
+                            document.getElementById("ju").style.display = "none";
+                        });
+                },
+
+                onUserLogOut: function () {
+                    // Load all peer nodes of the local node server
+                    var vm = this;
+                    axios.get('/userlogout')
+                        .then(function (response) {
+                            vm.success = response.data.message;
+                            vm.error = null;
+                            vm.warning = null;
+                            vm.nodes = response.data.all_users;
+                            vm.outgoingTx.recipient = '';
+                            document.getElementById("vote_button1").disabled = true;
+                            document.getElementById("node-user").disabled = false;
+                            document.getElementById("userb1").disabled = false;
+                            document.getElementById("userb2").disabled = true;
+                            document.getElementById("ju").style.display = "none";
+                        })
+                        .catch(function (error) {
+                            vm.success = null;
+                            vm.error = error.response.data.message;
+                            document.getElementById("ju").style.display = "none";
+                        });
+                },
+                bodyOnLoad: function () {
+                    // alert("body onload");
+                    document.getElementById("vote_button1").disabled = true;
+                    document.getElementById("userb2").disabled = true;
+                    document.getElementById("ju").style.display = "none";
+                },
+                onVote: function (candidate) {
+                    // Send Transaction to backend
+                    var vm = this;
+                    axios.post('/vote', {
+                        recipient: this.outgoingTx.recipient,
+                        amount: candidate
+                    })
+                    .then(function(response) {
+                        vm.error = null;
+                        vm.success = response.data.message;
+                        vm.warning = response.data.message2;
+                        // console.log(response.data);
+                        vm.outgoingTx.recipient = '';
+                        document.getElementById("vote_button1").disabled = true;
+                        document.getElementById("node-user").disabled = false;
+                        document.getElementById("userb1").disabled = false;
+                        document.getElementById("userb2").disabled = true;
+                        document.getElementById("ju").style.display = "none";
+                    })
+                    .catch(function (error) {
+                        vm.success = null;
+                        vm.error = error.response.data.message;
+                        vm.warning = error.response.data.message2;
+                        vm.outgoingTx.recipient = '';
+                        document.getElementById("vote_button1").disabled = true;
+                        document.getElementById("node-user").disabled = false;
+                        document.getElementById("userb1").disabled = false;
+                        document.getElementById("userb2").disabled = true;
+                        document.getElementById("ju").style.display = "none";
+                    });
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
