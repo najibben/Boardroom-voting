@@ -14,6 +14,7 @@ from utility.verification import Verification
 from block import Block
 from transaction import Transaction
 from wallet import Wallet
+import crypto
 
 
 
@@ -58,6 +59,10 @@ class Blockchain:
     @staticmethod
     def verifyChallenge(c, y, p, cipher1):
         # this is the function that is trying to determine if values are known 
+        '''
+        Values that will not work as p is not a prime number:
+        p="1001", g="542",x="1567",r="3214 This will not work as 1001 is not a prime number (7x11x13)
+        '''
         cipher2 =  (c*y)%p
         if cipher2 == cipher1:
             # Alice is at least partially convinced that Bob knows x 
@@ -161,11 +166,12 @@ class Blockchain:
          return tx_recipient
      
      
-    def verify_users(self):
-     p=997
-     g=13
-     x=1 
-     r = random.randrange(2, 100)
+    def verify_users(self): 
+     p=14249
+     g=5436
+     x=6545
+     r=999
+     #r = random.randrange(2, 100)
     # y= g**x % p
      y = pow(g, x, p)
  
@@ -183,19 +189,11 @@ class Blockchain:
                 return False
      return True
       
-
-    def get_votes(self):
-         tx_votes = [[tx.amount for tx in block.transactions] for block in self.__chain]
-         tx_votes2 = [tx_votes.count([1]), tx_votes.count([2]), tx_votes.count([3]), tx_votes.count([4]), tx_votes.count([5]), tx_votes.count([6])]
-         return tx_votes2
-
-
     def get_last_blockchain_value(self):
          if len(self.__chain) < 1:
               return None
-         return self.__chain[-1]
-
-
+         return self.__chain[-1]     
+    
     def add_transaction(self, recipient, sender, signature, amount=0, is_receiving=False):
          """ Arguments:
               :sender: The sender of the coins.

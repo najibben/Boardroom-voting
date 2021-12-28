@@ -242,9 +242,7 @@ def user_log_in():
                reader = csv.reader(infile) 
                for row in reader:
                 match = row[0]
-                #print (match)
                 recipient = values['recipient']
-                #print ((recipient))
                 if (match == recipient):
                      response = {
                       'message': 'User: ' + recipient + ' has been successfully logged in.',
@@ -308,7 +306,6 @@ def ballot():
     credentials = data['credentials']
     cipher = data['cipher']
     proof = data['proof']
-
     if crypto.verify_vote(pk, cipher, proof):
         with open('ballots.csv', 'a') as file:
             cipher = [str(s) for s in cipher]
@@ -396,7 +393,21 @@ def vote():
         }
         return jsonify(response), 400
     recipient = values['recipient']
-    amount = values['amount']
+    #amount = values ['amount']
+    ballots = []
+    with open('ballots.csv', 'r') as file:
+        for line in file:
+            line = line.strip().split(',')
+            ballots.append((int(line[1]), int(line[2])))
+
+    a, b = crypto.add(ballots)
+    yes = crypto.decrypt(sk, a, b)
+    proof = crypto.correct_decryption_proof(pk, sk, a, b)
+    response = {
+        'cipher': [a, b],
+        'proof': proof
+    }
+    amount = json.dumps(response)
     signature = wallet.sign_transaction(wallet.public_key, recipient, amount)
     success = blockchain.add_transaction(recipient, wallet.public_key, signature, amount)
     if success:
@@ -431,15 +442,37 @@ def vote():
 
 @app.route('/statistics', methods=['POST'])
 def statistics():
-    total_votes = blockchain.get_votes()
-    if sum(total_votes) == 0:
+    #total_votes = blockchain.get_votes()
+    ballots = []
+    with open('ballots.csv', 'r') as file:
+        for line in file:
+            line = line.strip().split(',')
+            ballots.append((int(line[1]), int(line[2])))
+
+    a, b = crypto.add(ballots)
+    yes = crypto.decrypt(sk, a, b)
+    response = {
+        'yes': yes,
+        'no': len(ballots) - yes,
+    }
+    amount = json.dumps(response) 
+    #total_votes = amount
+    jdata = json.loads(amount)
+    amount1 = (jdata['yes'])
+    amount2 = (jdata['no'])
+    converted_num1 = int(amount1)
+    converted_num2 = int(amount2)
+    total_votes1 = [converted_num1,converted_num2]
+  
+   # total_votes = [amount["yes"],amount["no"]]
+    if sum(total_votes1) == 0:
         response = {
             'message': 'Not data found.'
         }
         return jsonify(response), 400
     response = {
         'message': 'Statistics loaded successfully!',
-        'var_votes': total_votes
+        'var_votes': total_votes1
     }
     return jsonify(response), 201
     

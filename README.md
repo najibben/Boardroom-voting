@@ -12,9 +12,9 @@ We will use this protocol as a cryptographic primitive that allows one to commit
 
 TODO
 [5] implementation of Cramer-Damgård-Schoenmakers Protocol
-The witness hiding/indistinguishable protocol was introduced by Cramer et al. [22]; therefore, it is also known as the CDS protocol. It can be used to prove that a party knows the solution of k out of n problems without revealing which problems she can solve. This protocol is normally used in verifiable voting schemes to prove that a ciphertext is an encryption of one value within a subset of different values
+ It can be used to prove that a party knows the solution of k out of n problems without revealing which problems she can solve. This protocol is normally used in verifiable voting schemes to prove that a ciphertext is an encryption of one value within a subset of different values
 
-web: python node.py
+web: python node.py <br>
 register : http://url/form.html
 
 <br><br>
