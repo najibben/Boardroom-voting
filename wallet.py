@@ -1,20 +1,3 @@
-""" 
-
-Elliptic Curve Cryptography (ECC) with Hazmat EC Key Generation primitives within the crytogrpahy library
-
-Digital Signature Algorithm (DSA and ECDSA) A variant of the ElGamal signature, specified in FIPS PUB 186-4.
-It is based on the discrete logarithm problem in a prime finite field (DSA) or in an elliptic curve field (ECDSA).
-
-[15] https://asecuritysite.com/encryption/hashnew9 RSA has been around for over 40 years, and it is struggling in places. 
-In terms of key sizes, we are now at 2,048-bit keys and above. 
-For a lightweight device, we will struggle to perform these sizes of operations. 
-And so Elliptic Curve Cryptography (ECC) has come to our rescue, and where we use typical key sizes of just 256 bits. 
-In fact, Bitcoin and Ethereum, and most blockchain methods use ECC for their keys. 
-
-
-"""
-
-
 from Crypto.Hash import SHA256
 from Crypto.Hash import SHA3_256
 import binascii  # Converts binary to ascii and the other way around
@@ -29,6 +12,7 @@ from cryptography.hazmat.primitives.asymmetric import utils
 from cryptography import exceptions
 import binascii
 import sys
+
 
 class Wallet:
     def __init__(self, node_id):
@@ -106,7 +90,9 @@ class Wallet:
        
     '''
     Raises: ValueError – if the signature is not authentic
+
     and it always return False if it is successful.
+
     So rather than checking the return value, you need to check if the method raises an exception.
     '''
     @staticmethod
@@ -123,4 +109,4 @@ class Wallet:
            print ("The message is not authentic.")
            #return (verifier.verify(h, binascii.unhexlify(transaction.signature)))
         return (binascii.unhexlify(transaction.signature))
-        
+      
