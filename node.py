@@ -46,6 +46,18 @@ def get_node_ui():
 def index():
     return render_template('form.html')
 
+@app.route('/alice')
+def index1():
+    return render_template('alice.html')
+
+@app.route('/bob')
+def index2():
+    return render_template('bob.html')
+
+@app.route('/charlie')
+def index3():
+    return render_template('charlie.html')
+
 @app.route('/statistics', methods=['GET'])  # Decorator
 def get_statistics_ui():
     return send_from_directory('ui', 'statistics.html')
@@ -289,6 +301,40 @@ def setup():
     }
     return json.dumps(response)
 
+@app.route('/setup1', methods=['POST'])
+def setup1():
+    ballots = []
+    with open('ballots1.csv', 'a+') as file:
+        file.seek(0)
+        for line in file:
+            ballots.append(line.strip())
+
+    response = {
+        'p': crypto.p,
+        'q': crypto.q,
+        'g': crypto.g,
+        'pk': pk,
+        'ballots': ballots
+    }
+    return json.dumps(response)
+
+@app.route('/setup2', methods=['POST'])
+def setup2():
+    ballots= []
+    with open('ballots2.csv', 'a+') as file:
+        file.seek(0)
+        for line in file:
+            ballots.append(line.strip())
+
+    response = {
+        'p': crypto.p,
+        'q': crypto.q,
+        'g': crypto.g,
+        'pk': pk,
+        'ballots': ballots
+    }
+    return json.dumps(response)
+
 '''
 Observer (form.html) can watch the election’s progress consisting of
 the election administrator starting and closing each stage and voters registering and casting votes. 
@@ -311,11 +357,44 @@ def ballot():
             cipher = [str(s) for s in cipher]
             proof = [str(s) for s in proof]
             line = '{0},{1},{2}\n'.format(credentials, ','.join(cipher), ','.join(proof))
-            file.write(line)
-            
+            file.write(line)        
         return 'Access', 200
     return 'Denied', 200
 
+
+@app.route('/ballot1', methods=['POST'])
+def ballot1():
+    data = request.data.decode('utf-8')
+    data = json.loads(data)
+    credentials = data['credentials']
+    cipher = data['cipher']
+    proof = data['proof']
+    if crypto.verify_vote(pk, cipher, proof):
+        with open('ballots1.csv', 'a') as file:
+            cipher = [str(s) for s in cipher]
+            proof = [str(s) for s in proof]
+            line = '{0},{1},{2}\n'.format(credentials, ','.join(cipher), ','.join(proof))
+            file.write(line)        
+        return 'Access', 200
+    return 'Denied', 200
+
+
+@app.route('/ballot2', methods=['POST'])
+def ballot2():
+    data = request.data.decode('utf-8')
+    data = json.loads(data)
+    credentials = data['credentials']
+    cipher = data['cipher']
+    proof = data['proof']
+    if crypto.verify_vote(pk, cipher, proof):
+        with open('ballots2.csv', 'a') as file:
+            cipher = [str(s) for s in cipher]
+            proof = [str(s) for s in proof]
+            line = '{0},{1},{2}\n'.format(credentials, ','.join(cipher), ','.join(proof))
+            file.write(line)        
+        return 'Access', 200
+    return 'Denied', 200
+    
 
 @app.route('/tally', methods=['POST'])
 def tally():
@@ -333,6 +412,38 @@ def tally():
         'no': len(ballots) - yes,
         'cipher': [a, b],
         'proof': proof
+    }
+    print (response)
+    ballots1 = []
+    with open('ballots1.csv', 'r') as file:
+        for line in file:
+            line = line.strip().split(',')
+            ballots1.append((int(line[1]), int(line[2])))
+
+    a, b = crypto.add(ballots1)
+    yes = crypto.decrypt(sk, a, b)
+    proof1 = crypto.correct_decryption_proof(pk, sk, a, b)
+    response = {
+        'yes': yes,
+        'no': len(ballots1) - yes,
+        'cipher': [a, b],
+        'proof': proof1
+    }
+    print (response)
+    ballots2 = []
+    with open('ballots2.csv', 'r') as file:
+        for line in file:
+            line = line.strip().split(',')
+            ballots2.append((int(line[1]), int(line[2])))
+
+    a, b = crypto.add(ballots2)
+    yes = crypto.decrypt(sk, a, b)
+    proof2 = crypto.correct_decryption_proof(pk, sk, a, b)
+    response = {
+        'yes': yes,
+        'no': len(ballots2) - yes,
+        'cipher': [a, b],
+        'proof': proof2
     }
     print (response)
     return json.dumps(response)
@@ -401,13 +512,48 @@ def vote():
             ballots.append((int(line[1]), int(line[2])))
 
     a, b = crypto.add(ballots)
-    yes = crypto.decrypt(sk, a, b)
     proof = crypto.correct_decryption_proof(pk, sk, a, b)
+    candidate = 3
     response = {
         'cipher': [a, b],
-        'proof': proof
+        'proof': proof,
+        'candidate' : candidate
     }
     amount = json.dumps(response)
+    print (amount)
+    ballots1 = []
+    with open('ballots1.csv', 'r') as file:
+        for line in file:
+            line = line.strip().split(',')
+            ballots1.append((int(line[1]), int(line[2])))
+
+    a, b = crypto.add(ballots1)
+    proof = crypto.correct_decryption_proof(pk, sk, a, b)
+    candidate = 2
+    response = {
+        'cipher': [a, b],
+        'proof': proof,
+        'candidate' : candidate
+    }
+    amount1 = json.dumps(response)
+    print (amount1)
+    ballots2 = []
+    with open('ballots2.csv', 'r') as file:
+        for line in file:
+            line = line.strip().split(',')
+            ballots2.append((int(line[1]), int(line[2])))
+
+    a, b = crypto.add(ballots2)
+    proof = crypto.correct_decryption_proof(pk, sk, a, b)
+    candidate = 1
+    response = {
+        'cipher': [a, b],
+        'proof': proof,
+        'candidate' : candidate
+    }
+    amount2 = json.dumps(response)
+    print (amount2)
+    amount = (amount + amount1 + amount2)
     signature = wallet.sign_transaction(wallet.public_key, recipient, amount)
     success = blockchain.add_transaction(recipient, wallet.public_key, signature, amount)
     if success:
@@ -459,10 +605,45 @@ def statistics():
     #total_votes = amount
     jdata = json.loads(amount)
     amount1 = (jdata['yes'])
-    amount2 = (jdata['no'])
     converted_num1 = int(amount1)
+     #total_votes = blockchain.get_votes()
+    ballots1 = []
+    with open('ballots1.csv', 'r') as file:
+        for line in file:
+            line = line.strip().split(',')
+            ballots1.append((int(line[1]), int(line[2])))
+
+    a, b = crypto.add(ballots1)
+    yes = crypto.decrypt(sk, a, b)
+    response = {
+        'yes': yes,
+        'no': len(ballots1) - yes,
+    }
+    amount = json.dumps(response) 
+    #total_votes = amount
+    jdata = json.loads(amount)
+    amount2 = (jdata['yes'])
     converted_num2 = int(amount2)
-    total_votes1 = [converted_num1,converted_num2]
+     #total_votes = blockchain.get_votes()
+    ballots2 = []
+    with open('ballots2.csv', 'r') as file:
+        for line in file:
+            line = line.strip().split(',')
+            ballots2.append((int(line[1]), int(line[2])))
+
+    a, b = crypto.add(ballots2)
+    yes = crypto.decrypt(sk, a, b)
+    response = {
+        'yes': yes,
+        'no': len(ballots2) - yes,
+    }
+    amount = json.dumps(response) 
+    #total_votes = amount
+    jdata = json.loads(amount)
+    amount3 = (jdata['yes'])
+    converted_num3 = int(amount3)
+    
+    total_votes1 = [converted_num1,converted_num2,converted_num3]
   
    # total_votes = [amount["yes"],amount["no"]]
     if sum(total_votes1) == 0:

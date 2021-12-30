@@ -10,7 +10,7 @@
  
  window.onload = () => {
   board = document.getElementById('board');
-  let request = new Request('/setup', {
+  let request = new Request('/setup1', {
     method: 'POST'
   });
 
@@ -35,7 +35,7 @@
    let [a, b, proof] = encrypt(pk, vote);
    let cipher = [a, b];
  
-   let request = new Request('/ballot', {
+   let request = new Request('/ballot1', {
      method: 'POST',
      body: JSON.stringify({credentials, cipher, proof})
    });
