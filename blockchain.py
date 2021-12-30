@@ -194,7 +194,7 @@ class Blockchain:
               return None
          return self.__chain[-1]     
     
-    def add_transaction(self, recipient, sender, signature, amount=0, is_receiving=False):
+    def add_transaction(self, recipient, sender, signature, amount=0,  is_receiving=False):
          """ Arguments:
               :sender: The sender of the coins.
               :recipient: The recipient of the coins.
